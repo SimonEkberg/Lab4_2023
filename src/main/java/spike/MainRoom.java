@@ -5,7 +5,9 @@ import domainModell.person.Person;
 import domainModell.room.Room;
 import service.RoomService;
 import service.ServiceRunner;
+import service.person.DeletePersonByIdService;
 import service.person.FindAllPersonService;
+import service.room.DeleteRoomByIdService;
 import service.room.FindAllRoomService;
 
 import java.util.List;
@@ -13,12 +15,12 @@ import java.util.List;
 public class MainRoom {
     public static void main(String[] args) {
 
-        RoomService roomService = new RoomService();
+   /*     RoomService roomService = new RoomService();
         ServiceRunner<List<Room>> runner = new ServiceRunner(new FindAllRoomService());
         List<Room> roomList = runner.execute();
         for(Room p: roomList){
             System.out.println(p);
-        }
+        }*/
     /*    Room room = new Room(24,4,44,"     ");
         DbConnectionManager.getInstance().open();
         System.out.println(roomService.saveRoom(room));*/
@@ -35,5 +37,9 @@ public class MainRoom {
      //   Room deleteRoom = new Room(29,0,0, "WAREHOUSE");
      //   myRoom.delete(deleteRoom);
       //  System.out.println(myRoom.getAll());
+
+        ServiceRunner<Room> serviceRunner = new ServiceRunner(new DeleteRoomByIdService(52));
+        Room room = serviceRunner.execute();
+        System.out.println(room);
     }
 }
