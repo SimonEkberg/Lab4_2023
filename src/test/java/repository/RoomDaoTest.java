@@ -56,11 +56,11 @@ class RoomDaoTest {
         assertTrue(expResult.equals(result));
 
         verify(resultSetMock, times(1)).getInt(1);
-        verify(resultSetMock,times(1)).getInt(2);
-        verify(resultSetMock,times(1)).getDouble(3);
-        verify(resultSetMock,times(1)).getString(4);
-        verify(resultSetMock,times(1)).next();
-        verify(dbConnectionManagerMock,times(1)).excecuteQuery(
+        verify(resultSetMock, times(1)).getInt(2);
+        verify(resultSetMock, times(1)).getDouble(3);
+        verify(resultSetMock, times(1)).getString(4);
+        verify(resultSetMock, times(1)).next();
+        verify(dbConnectionManagerMock, times(1)).excecuteQuery(
                 "SELECT id, room_number, room_area," +
                         " room_type FROM rooms WHERE id=" + id);
     }
@@ -158,19 +158,30 @@ class RoomDaoTest {
     @Test
     void testDelete() throws SQLException {
         System.out.println("testDelete");
-        boolean expResult = true;
         int id = 1;
-        when(resultSetMock.getInt(1)).thenReturn(roomInstance.getId());
+        Room expResult = new Room(id, 101, 25.0, "");
+        when(resultSetMock.next()).thenReturn(true);
+        when(resultSetMock.getInt(1)).thenReturn(expResult.getId());
+        when(resultSetMock.getInt(2)).thenReturn(expResult.getRoomNumber());
+        when(resultSetMock.getDouble(3)).thenReturn(expResult.getRoomArea());
+        when(resultSetMock.getString(4)).thenReturn(expResult.getRoomType());
+        when(preparedStatementMock.executeUpdate()).thenReturn(1);
+        when(dbConnectionManagerMock.excecuteQuery("SELECT id, room_number, room_area, room_type FROM rooms WHERE id=" + id))
+                .thenReturn(resultSetMock);
         when(dbConnectionManagerMock.prepareStatement("DELETE FROM rooms WHERE id = ?", Statement.RETURN_GENERATED_KEYS))
                 .thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
-        boolean result = instance.delete(id);
 
+        Room result = instance.delete(id);
         assertEquals(expResult, result);
-        assertTrue(result);
 
-        verify(preparedStatementMock, times(1)).setInt(1, id);
-        verify(dbConnectionManagerMock,times(1)).prepareStatement(
+        verify(resultSetMock, times(1)).getInt(1);
+        verify(resultSetMock, times(1)).getInt(2);
+        verify(resultSetMock, times(1)).getDouble(3);
+        verify(resultSetMock, times(1)).getString(4);
+        verify(dbConnectionManagerMock, times(1)).prepareStatement(
                 "DELETE FROM rooms WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
+        verify(preparedStatementMock, times(1)).setInt(1, id);
+        verify(preparedStatementMock, times(1)).executeUpdate();
     }
 }

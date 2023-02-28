@@ -29,9 +29,9 @@ public class MainPerson {
             System.out.println(p);
         }
         */
-     /*   ServiceRunner<Boolean> serviceRunner = new ServiceRunner(new DeletePersonByIdService(22));
-        boolean isDeleted = serviceRunner.execute();
-        System.out.println(isDeleted);*/
+        ServiceRunner<Person> serviceRunner = new ServiceRunner(new DeletePersonByIdService(26));
+        Person person = serviceRunner.execute();
+        System.out.println(person);
 
 
       //  personService.updatePerson(new Person(24, "Gustav", 1989));

@@ -111,22 +111,26 @@ public class PersonDao implements Dao<Person> {
 
 
 	@Override
-	public boolean delete(int id) {
+	public Person delete(int id) {
+		Person person = null;
 		PreparedStatement preparedStatement = null;
-		int rowCount = 0;
 		try {
+			ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT id, name, birth_year FROM persons WHERE id=" + id);
+			if (!resultSet.next())
+				throw new NoSuchElementException("The person with id " + id + " doesn't exist in database");
+			else
+				person = new Person(resultSet.getInt(1),
+						resultSet.getString(2),
+						resultSet.getInt(3));
 			preparedStatement = dbConManagerSingleton.prepareStatement(
 					"DELETE FROM persons WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
 			preparedStatement.setInt(1, id);
-			rowCount = preparedStatement.executeUpdate();
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (rowCount == 0)
-			throw new NoSuchElementException("Person with ID " + id + " does not exist in the database.");
-		return true;
+		return person;
 	}
-
 
 }
 

@@ -142,22 +142,32 @@ class PersonDaoTest {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    void testDelete() throws SQLException {
         System.out.println("testDelete");
-        boolean expResult = true;
         int id = 1;
-        when(resultSetMock.getInt(1)).thenReturn(personInstance.getId());
+        Person expResult = personInstance;
+        when(resultSetMock.next()).thenReturn(true);
+        when(resultSetMock.getInt(1)).thenReturn(expResult.getId());
+        when(resultSetMock.getString(2)).thenReturn(expResult.getPersonName());
+        when(resultSetMock.getInt(3)).thenReturn(expResult.getBirthYear());
+        when(preparedStatementMock.executeUpdate()).thenReturn(1);
+        when(dbConnectionManagerMock.excecuteQuery("SELECT id, name, birth_year FROM persons WHERE id=" + id))
+                .thenReturn(resultSetMock);
         when(dbConnectionManagerMock.prepareStatement("DELETE FROM persons WHERE id = ?", Statement.RETURN_GENERATED_KEYS))
                 .thenReturn(preparedStatementMock);
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
-        boolean result = instance.delete(id);
 
+        Person result = instance.delete(id);
         assertEquals(expResult, result);
-        assertTrue(result);
 
-        verify(preparedStatementMock, times(1)).setInt(1, id);
-        verify(dbConnectionManagerMock,times(1)).prepareStatement(
+        verify(resultSetMock, times(1)).getInt(1);
+        verify(resultSetMock, times(1)).getString(2);
+        verify(resultSetMock, times(1)).getInt(3);
+        verify(dbConnectionManagerMock, times(1)).prepareStatement(
                 "DELETE FROM persons WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
+        verify(preparedStatementMock, times(1)).setInt(1, id);
+        verify(preparedStatementMock, times(1)).executeUpdate();
     }
+
 }
 

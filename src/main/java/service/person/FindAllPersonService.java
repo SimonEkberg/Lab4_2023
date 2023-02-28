@@ -1,6 +1,5 @@
 package service.person;
 
-import db.DbConnectionManager;
 import domainModell.person.Person;
 import repository.DaoFactory;
 import service.BaseService;

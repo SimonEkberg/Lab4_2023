@@ -78,9 +78,9 @@ class RoomServiceTest {
         System.out.println("deleteRoom");
         int id = 1;
         Room room = new Room(1, 22, 22, "TOILET");
-        when(roomDaoMock.delete(id)).thenReturn(true);
-        boolean expResult = true;
-        boolean result = instance.deleteRoom(id);
+        when(roomDaoMock.delete(id)).thenReturn(room);
+        Room expResult = room;
+        Room result = instance.deleteRoom(id);
         assertEquals(expResult, result);
         verify(roomDaoMock, times(1)).delete(id);
     }

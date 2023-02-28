@@ -25,7 +25,7 @@ public class RoomService {
     public Room updateRoom(Room room){
         return roomDao.update(room);
     }
-    public boolean deleteRoom(int id){
+    public Room deleteRoom(int id){
         return roomDao.delete(id);
     }
 }

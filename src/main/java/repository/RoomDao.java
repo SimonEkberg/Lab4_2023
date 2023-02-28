@@ -68,7 +68,6 @@ public class RoomDao implements Dao<Room> {
                         resultSet.getString(4))
                 );
             }
-            dbConManagerSingleton.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -117,20 +116,26 @@ public class RoomDao implements Dao<Room> {
     }
 
     @Override
-    public boolean delete(int id) {
+    public Room delete(int id) {
+        Room room = null;
         PreparedStatement preparedStatement = null;
-        int rowCount = 0;
         try {
+            ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT id, room_number, room_area," +
+                    " room_type FROM rooms WHERE id=" + id);
+            if (!resultSet.next())
+                throw new NoSuchElementException("The room with id " + id + " doesen't exist in database");
+            else
+                room = new Room(resultSet.getInt(1),
+                        resultSet.getInt(2),
+                        resultSet.getDouble(3),
+                        resultSet.getString(4));
             preparedStatement = dbConManagerSingleton.prepareStatement(
                     "DELETE FROM rooms WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, id);
-            rowCount = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (rowCount == 0) {
-            throw new NoSuchElementException("Room with ID " + id + " does not exist in the database.");
-        }
-        return true;
+        return room;
     }
 }

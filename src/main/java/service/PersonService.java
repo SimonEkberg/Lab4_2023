@@ -29,10 +29,7 @@ public class PersonService {
     public Person updatePerson(Person person){
         return personDao.update(person);
     }
-    public boolean deletePerson(int id){
+    public Person deletePerson(int id){
         return personDao.delete(id);
     }
-
-
-
 }

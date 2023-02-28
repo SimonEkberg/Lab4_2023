@@ -70,16 +70,28 @@ class PersonServiceTest {
         verify(personDaoMock, times(1)).update(expResult);
     }
 
-    @Test
+   /* @Test
     void deletePerson() {
         System.out.println("deletePerson");
         int id = 1;
         Person person = new Person(id, "Simon", 1989);
         when(personDaoMock.delete(id)).thenReturn(true);
         boolean expResult = true;
-        boolean result = instance.deletePerson(id);
+        Person result = instance.deletePerson(id);
         assertEquals(expResult, result);
         verify(personDaoMock, times(1)).delete(id);
-    }
+    }*/
+   @Test
+   void deletePerson() {
+       System.out.println("deletePerson");
+       int id = 1;
+       Person person = new Person(id, "Simon", 1989);
+       when(personDaoMock.delete(id)).thenReturn(person);
+       Person expResult = person;
+       Person result = instance.deletePerson(id);
+       assertEquals(expResult, result);
+       verify(personDaoMock, times(1)).delete(id);
+   }
+
 
 }
