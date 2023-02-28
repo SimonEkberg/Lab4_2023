@@ -3,12 +3,13 @@ package service.room;
 import db.DbConnectionManager;
 import domainModell.room.Room;
 import repository.RoomDao;
+import service.BaseService;
 import service.CleaningManagerServiceException;
-import service.CommandService;
+import service.ServiceCommand;
 
 import java.util.NoSuchElementException;
 
-public class UpdateRoomService implements CommandService<Room> {
+public class UpdateRoomService extends BaseService<Room> {
     private Room room;
     public UpdateRoomService(Room room){
         this.room = room;

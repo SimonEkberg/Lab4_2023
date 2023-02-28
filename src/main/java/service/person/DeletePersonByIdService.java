@@ -1,13 +1,15 @@
 package service.person;
 
 import db.DbConnectionManager;
+import repository.DaoFactory;
 import repository.PersonDao;
+import service.BaseService;
 import service.CleaningManagerServiceException;
-import service.CommandService;
+import service.ServiceCommand;
 
 import java.util.NoSuchElementException;
 
-public class DeletePersonByIdService implements CommandService<Boolean> {
+public class DeletePersonByIdService extends BaseService<Boolean> {
     private int id;
 
     public DeletePersonByIdService(int id){
@@ -15,16 +17,11 @@ public class DeletePersonByIdService implements CommandService<Boolean> {
     }
     @Override
     public Boolean execute() {
-        PersonDao personDao = new PersonDao();
-        DbConnectionManager.getInstance().open();
         try{
-            boolean isDeleted = personDao.delete(id);
+            boolean isDeleted = daoFactory.get(DaoFactory.FactoryType.PERSON).delete(id);
             return isDeleted;
         }catch (NoSuchElementException e){
             throw new CleaningManagerServiceException(e.getMessage());
-        }
-        finally {
-            DbConnectionManager.getInstance().close();
         }
     }
 }

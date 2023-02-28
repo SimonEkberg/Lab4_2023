@@ -3,9 +3,10 @@ package service.room;
 import db.DbConnectionManager;
 import domainModell.room.Room;
 import repository.RoomDao;
-import service.CommandService;
+import service.BaseService;
+import service.ServiceCommand;
 
-public class SaveRoomService implements CommandService<Room> {
+public class SaveRoomService extends BaseService<Room> {
     private Room room;
     public SaveRoomService(Room room){
         this.room = room;

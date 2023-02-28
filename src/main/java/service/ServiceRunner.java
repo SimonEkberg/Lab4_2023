@@ -1,13 +1,20 @@
 package service;
 
-public class ServiceRunner {
-    private CommandService commandService;
+import db.DbConnectionManager;
+import repository.DaoFactory;
 
-    public void setCommand(CommandService commandService){
-        this.commandService = commandService;
+public class ServiceRunner<T>{
+    private final ServiceCommand<T> service;
+
+    public ServiceRunner(ServiceCommand<T> serviceCommand) {
+        this.service = serviceCommand;
     }
 
-    public void executeService(){
-        this.commandService.execute();
+    public T execute(){
+        service.init(new DaoFactory());
+        DbConnectionManager.getInstance().open();
+        T result = this.service.execute();
+        DbConnectionManager.getInstance().close();
+        return result;
     }
 }

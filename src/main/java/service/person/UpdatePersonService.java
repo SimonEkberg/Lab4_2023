@@ -3,12 +3,13 @@ package service.person;
 import db.DbConnectionManager;
 import domainModell.person.Person;
 import repository.PersonDao;
+import service.BaseService;
 import service.CleaningManagerServiceException;
-import service.CommandService;
+import service.ServiceCommand;
 
 import java.util.NoSuchElementException;
 
-public class UpdatePersonService implements CommandService<Person> {
+public class UpdatePersonService extends BaseService<Person> {
     private Person person;
     public UpdatePersonService(Person person){
         this.person = person;

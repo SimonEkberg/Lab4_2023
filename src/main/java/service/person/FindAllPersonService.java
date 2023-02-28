@@ -2,20 +2,14 @@ package service.person;
 
 import db.DbConnectionManager;
 import domainModell.person.Person;
-import repository.PersonDao;
-import service.CommandService;
+import repository.DaoFactory;
+import service.BaseService;
 
 import java.util.List;
 
-public class FindAllPersonService implements CommandService<List<Person>> {
-    public FindAllPersonService(){
-    }
+public class FindAllPersonService extends BaseService<List<Person>> {
     @Override
     public List<Person> execute() {
-        PersonDao personDao = new PersonDao();
-        DbConnectionManager.getInstance().open();
-        List<Person> list = personDao.getAll();
-        DbConnectionManager.getInstance().close();
-        return list;
+        return daoFactory.get(DaoFactory.FactoryType.PERSON).getAll();
     }
 }

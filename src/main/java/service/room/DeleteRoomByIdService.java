@@ -2,12 +2,13 @@ package service.room;
 
 import db.DbConnectionManager;
 import repository.RoomDao;
+import service.BaseService;
 import service.CleaningManagerServiceException;
-import service.CommandService;
+import service.ServiceCommand;
 
 import java.util.NoSuchElementException;
 
-public class DeleteRoomByIdService implements CommandService<Boolean> {
+public class DeleteRoomByIdService extends BaseService<Boolean> {
     private int id;
 
     public DeleteRoomByIdService(int id){

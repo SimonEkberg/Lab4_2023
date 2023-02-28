@@ -22,11 +22,11 @@ public class Main {
    /*     UpdateService updateService = new UpdateService(new Person(40, "TestarUpdate", 2023));
         updateService.execute();
 */
-        Person person = new Person("Controll Service", 1923);
+  /*      Person person = new Person("Controll Service", 1923);
         SavePersonService savePersonService = new SavePersonService(person);
-        ServiceRunner controllService = new ServiceRunner();
+        ServiceRunner controllService = new ServiceRunner(commandService);
         controllService.setCommand(savePersonService);
-        controllService.executeService();
+        controllService.executeService();*/
 
     }
 

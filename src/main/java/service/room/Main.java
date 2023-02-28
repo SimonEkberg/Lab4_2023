@@ -21,10 +21,10 @@ public class Main {
  /*       UpdateRoomService updateService = new UpdateRoomService(new Room(46, 10, 10, "LIVINGROOM/*"));
         updateService.execute();
 */
-        SaveRoomService saveRoomService = new SaveRoomService(new Room(1, 8, 88.8, "WAREHOUSE"));
-        ServiceRunner controllService = new ServiceRunner();
+    /*    SaveRoomService saveRoomService = new SaveRoomService(new Room(1, 8, 88.8, "WAREHOUSE"));
+        ServiceRunner controllService = new ServiceRunner(commandService);
         controllService.setCommand(saveRoomService);
-        controllService.executeService();
+        controllService.executeService();*/
     }
 
 }

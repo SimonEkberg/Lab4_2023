@@ -3,9 +3,10 @@ package service.person;
 import db.DbConnectionManager;
 import domainModell.person.Person;
 import repository.PersonDao;
-import service.CommandService;
+import service.BaseService;
+import service.ServiceCommand;
 
-public class SavePersonService implements CommandService<Person> {
+public class SavePersonService extends BaseService<Person> {
     private Person person;
     public SavePersonService(Person person){
         this.person = person;

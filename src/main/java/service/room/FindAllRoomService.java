@@ -2,20 +2,18 @@ package service.room;
 
 import db.DbConnectionManager;
 import domainModell.room.Room;
+import repository.DaoFactory;
 import repository.RoomDao;
-import service.CommandService;
+import service.BaseService;
+import service.ServiceCommand;
 
 import java.util.List;
 
-public class FindAllRoomService implements CommandService<List<Room>> {
+public class FindAllRoomService extends BaseService<List<Room>> {
     public FindAllRoomService(){
     }
     @Override
     public List<Room> execute() {
-        RoomDao roomDao = new RoomDao();
-        DbConnectionManager.getInstance().open();
-        List<Room> list = roomDao.getAll();
-        DbConnectionManager.getInstance().close();
-        return list;
+        return new DaoFactory().getRoomDao().getAll();
     }
 }

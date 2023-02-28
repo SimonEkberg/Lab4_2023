@@ -3,19 +3,22 @@ package service.room;
 import db.DbConnectionManager;
 import domainModell.person.Person;
 import domainModell.room.Room;
+import repository.DaoFactory;
 import repository.PersonDao;
 import repository.RoomDao;
+import service.BaseService;
 import service.CleaningManagerServiceException;
-import service.CommandService;
+import service.ServiceCommand;
 
 import java.util.NoSuchElementException;
 
-public class GetPersonByIdService implements CommandService<Room> {
+public class GetRoomByIdService extends BaseService<Room> {
 
     private int id;
-    public GetPersonByIdService(int id){
+    public GetRoomByIdService(int id){
         this.id = id;
     }
+
 
     @Override
     public Room execute(){
