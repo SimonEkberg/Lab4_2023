@@ -18,7 +18,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 class PersonDaoTest {
     PersonDao instance;
-    Person personInstance = new Person(1, "Simon", 1989);
+    Person personInstance = new Person(1, "Simon", 1989, 0);
     @Mock
     DbConnectionManager dbConnectionManagerMock;
     @Mock
@@ -64,12 +64,13 @@ class PersonDaoTest {
     void testGetAll() throws SQLException {
         System.out.println("testGetAll");
         List<Person> expResult = List.of(personInstance,
-                new Person(2, "Benke", 1948));
+                new Person(2, "Benke", 1948, 0));
         when(resultSetMock.getInt(1)).thenReturn(personInstance.getId()).thenReturn(2);
         when(resultSetMock.getString(2)).thenReturn(personInstance.getPersonName()).thenReturn("Benke");
         when(resultSetMock.getInt(3)).thenReturn(personInstance.getBirthYear()).thenReturn(1948);
+        when(resultSetMock.getInt(4)).thenReturn(personInstance.getSiteId()).thenReturn(0);
         when(resultSetMock.next()).thenReturn(true).thenReturn(true).thenReturn(false);
-        when(dbConnectionManagerMock.excecuteQuery("SELECT id, name, birth_year FROM persons"))
+        when(dbConnectionManagerMock.excecuteQuery("SELECT id, name, birth_year, site_id FROM persons"))
                 .thenReturn(resultSetMock);
         List<Person> result = instance.getAll();
 
@@ -84,7 +85,7 @@ class PersonDaoTest {
         verify(resultSetMock, times(2)).getInt(3);
         verify(resultSetMock, times(3)).next();
         verify(dbConnectionManagerMock, times(1))
-                .excecuteQuery("SELECT id, name, birth_year FROM persons");
+                .excecuteQuery("SELECT id, name, birth_year, site_id FROM persons");
     }
 
     @Test

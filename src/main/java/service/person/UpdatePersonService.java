@@ -1,13 +1,8 @@
 package service.person;
 
-import db.DbConnectionManager;
 import domainModell.person.Person;
-import repository.PersonDao;
+import repository.DaoFactory;
 import service.BaseService;
-import service.CleaningManagerServiceException;
-import service.ServiceCommand;
-
-import java.util.NoSuchElementException;
 
 public class UpdatePersonService extends BaseService<Person> {
     private Person person;
@@ -17,17 +12,6 @@ public class UpdatePersonService extends BaseService<Person> {
 
     @Override
     public Person execute() {
-        PersonDao personDao = new PersonDao();
-        DbConnectionManager.getInstance().open();
-        try {
-            Person person = personDao.update(this.person);
-            return person;
-        }
-        catch (NoSuchElementException e){
-            throw new CleaningManagerServiceException(e.getMessage());
-        }
-        finally {
-            DbConnectionManager.getInstance().close();
-        }
+        return (Person) daoFactory.get(DaoFactory.type.PERSON).update(this.person);
     }
 }

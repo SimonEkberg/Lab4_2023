@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class PersonTest {
     Person instance;
     @BeforeEach
@@ -54,9 +56,17 @@ class PersonTest {
     }
 
     @Test
+    void equals(){
+        Person person = new Person(1, "Simon", 2000, 1);
+        Person person2 = new Person(1, "Simon", 2000, 1);
+        assertTrue(person.equals(person2));
+        assertEquals(person2, person);
+    }
+
+    @Test
     void testToString() {
         System.out.println("testToString");
-        String expectedResult = "Person{Id: 1, Namn: Simon Ekberg, Födelseår: 1989}";
+        String expectedResult = "Person{Id: 1, Namn: Simon Ekberg, Födelseår: 1989, SiteId: 0}";
         String result = instance.toString();
         assertEquals(expectedResult, result);
     }

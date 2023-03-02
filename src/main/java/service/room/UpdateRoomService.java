@@ -1,13 +1,8 @@
 package service.room;
 
-import db.DbConnectionManager;
 import domainModell.room.Room;
-import repository.RoomDao;
+import repository.DaoFactory;
 import service.BaseService;
-import service.CleaningManagerServiceException;
-import service.ServiceCommand;
-
-import java.util.NoSuchElementException;
 
 public class UpdateRoomService extends BaseService<Room> {
     private Room room;
@@ -17,17 +12,6 @@ public class UpdateRoomService extends BaseService<Room> {
 
     @Override
     public Room execute() {
-        RoomDao personDao = new RoomDao();
-        DbConnectionManager.getInstance().open();
-        try {
-            Room room = personDao.update(this.room);
-            return room;
-        }
-        catch (NoSuchElementException e){
-            throw new CleaningManagerServiceException(e.getMessage());
-        }
-        finally {
-            DbConnectionManager.getInstance().close();
-        }
+        return (Room) daoFactory.get(DaoFactory.type.ROOM).update(this.room);
     }
 }

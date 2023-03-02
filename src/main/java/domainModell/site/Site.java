@@ -1,41 +1,57 @@
 package domainModell.site;
 
 import domainModell.person.Person;
-import domainModell.room.Room;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Site {
-    private int id;
+    private SiteId id;
     private SiteName siteName;
-    private List<Person> persons;
-    private List<Room> rooms;
+    private SiteCity siteCity;
 
-    public Site(int id, String siteName) {
-        this.id = id;
-        this.siteName = new SiteName(siteName);
-        persons = new ArrayList<>();
-        rooms = new ArrayList<>();
+    public Site(int id, String name, String siteCity) {
+        this.id = new SiteId(id);
+        this.siteName = new SiteName(name);
+        this.siteCity = new SiteCity(siteCity);
     }
 
-    public String getSiteName() {
+    public long getId() {
+        return this.id.getId();
+    }
+
+    public String getName() {
         return siteName.getName();
     }
 
-    public void addPerson(Person person) {
-        persons.add(person);
+    public void setName(String name) {
+        this.siteName = new SiteName(name);
     }
 
-    public void addRoom(Room room) {
-        rooms.add(room);
+    public String getSiteCity() {
+        return siteCity.getCity();
     }
 
-    public List<Person> getPersons() {
-        return persons;
+    public void setSiteCity(String city) {
+        this.siteCity = new SiteCity(city);
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { //if same object
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) { //if null or not the same class
+            return false;
+        }
+        Site site = (Site) o;
+        return getId() == site.getId() &&
+                getName() == site.getName() &&
+                getSiteCity() == site.getSiteCity();
     }
 
-    public List<Room> getRooms() {
-        return rooms;
+    @Override
+    public String toString() {
+        return "Site{" +
+                "Id: " + id +
+                ", Namn: " + siteName.getName() +
+                ", Stad: " + siteCity.getCity() +
+                '}';
     }
 }

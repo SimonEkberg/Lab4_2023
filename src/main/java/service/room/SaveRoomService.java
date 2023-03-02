@@ -1,10 +1,8 @@
 package service.room;
 
-import db.DbConnectionManager;
 import domainModell.room.Room;
-import repository.RoomDao;
+import repository.DaoFactory;
 import service.BaseService;
-import service.ServiceCommand;
 
 public class SaveRoomService extends BaseService<Room> {
     private Room room;
@@ -13,10 +11,6 @@ public class SaveRoomService extends BaseService<Room> {
     }
     @Override
     public Room execute() {
-        RoomDao personDao = new RoomDao();
-        DbConnectionManager.getInstance().open();
-        Room instance = personDao.save(this.room);
-        DbConnectionManager.getInstance().close();
-        return instance;
+        return (Room) daoFactory.get(DaoFactory.type.ROOM).save(this.room);
     }
 }

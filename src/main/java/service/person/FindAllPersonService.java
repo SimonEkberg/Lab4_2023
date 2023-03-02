@@ -9,6 +9,6 @@ import java.util.List;
 public class FindAllPersonService extends BaseService<List<Person>> {
     @Override
     public List<Person> execute() {
-        return daoFactory.get(DaoFactory.FactoryType.PERSON).getAll();
+        return daoFactory.get(DaoFactory.type.PERSON).getAll();
     }
 }

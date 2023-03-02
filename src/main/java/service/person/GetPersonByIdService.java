@@ -1,19 +1,18 @@
 package service.person;
 
 import domainModell.person.Person;
+import repository.Dao;
+import repository.DaoFactory;
 import service.BaseService;
-import service.CleaningManagerServiceException;
-import java.util.NoSuchElementException;
 
 public class GetPersonByIdService extends BaseService<Person> {
     private int id;
+    public GetPersonByIdService(int id) {
+        this.id = id;
+    }
     @Override
     public Person execute(){
-        try {
-            return daoFactory.getPersonDao().get(this.id);
-        }
-        catch (NoSuchElementException e){
-            throw new CleaningManagerServiceException(e.getMessage());
-        }
+        Dao<Person> dao = daoFactory.get(DaoFactory.type.PERSON);
+        return dao.get(this.id);
     }
 }

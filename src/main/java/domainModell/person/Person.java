@@ -1,19 +1,35 @@
 package domainModell.person;
 
+import domainModell.site.SiteId;
+
 public class Person{
     private int id;
     private PersonName personName;
     private PersonBirthYear personBirthYear;
+    private SiteId siteId;
 
 
 
-    public Person(int id,String personName, int personBirthYear) {
+    public Person(int id, String personName, int personBirthYear) {
+        this(id,personName,personBirthYear,0);
+    }
+    public Person(int id, String personName, int personBirthYear, int siteId){
         this.id = id;
         this.personName = new PersonName(personName);
         this.personBirthYear = new PersonBirthYear(personBirthYear);
+        this.siteId = new SiteId(siteId);
     }
-    public Person(String name, int birthYear){
-        this(0,name,birthYear);
+
+    public int getSiteId() {
+        return siteId.getId();
+    }
+
+    public void setSiteId(int siteId) {
+        this.siteId = new SiteId(siteId);
+    }
+
+    public Person(String name, int birthYear, int siteId){
+        this(0,name,birthYear,siteId);
     }
 
     public String getPersonName() {
@@ -52,7 +68,8 @@ public class Person{
       Person person = (Person) o;
       return getId() == person.getId() &&
               getBirthYear() == person.getBirthYear() &&
-              getPersonName() == person.getPersonName();
+              getPersonName() == person.getPersonName() &&
+              getSiteId() == person.getSiteId();
   }
 
  /* @Override
@@ -79,6 +96,7 @@ public class Person{
                 "Id: " + id +
                 ", Namn: " + personName.getName() +
                 ", Födelseår: " + personBirthYear.getBirthYear() +
+                ", SiteId: " + siteId.getId() +
                 '}';
     }
 }

@@ -7,11 +7,11 @@ public class DaoFactory {
     public RoomDao getRoomDao(){
         return new RoomDao();
     }
-    public Dao get(FactoryType type){
+    public Dao get(type type){
         return switch (type) {
             case PERSON -> new PersonDao();
             case ROOM -> new RoomDao();
         };
     }
-    public enum FactoryType{PERSON, ROOM}
+    public enum type {PERSON, ROOM}
 }
