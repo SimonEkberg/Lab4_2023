@@ -40,8 +40,9 @@ class PersonDaoTest {
         when(resultSetMock.getInt(1)).thenReturn(expResult.getId());
         when(resultSetMock.getString(2)).thenReturn(expResult.getPersonName());
         when(resultSetMock.getInt(3)).thenReturn(expResult.getBirthYear());
+        when(resultSetMock.getInt(4)).thenReturn(expResult.getSiteId());
         when(resultSetMock.next()).thenReturn(true);
-        when(dbConnectionManagerMock.excecuteQuery("SELECT id, name, birth_year FROM persons WHERE id=" + id))
+        when(dbConnectionManagerMock.excecuteQuery("SELECT id, name, birth_year, site_id FROM persons WHERE id=" + id))
                 .thenReturn(resultSetMock);
 
         Person result = instance.get(id);
@@ -57,7 +58,7 @@ class PersonDaoTest {
         verify(resultSetMock, times(1)).getInt(3);
         verify(resultSetMock, times(1)).next();
         verify(dbConnectionManagerMock, times(1)).excecuteQuery(
-                "SELECT id, name, birth_year FROM persons WHERE id=" + id);
+                "SELECT id, name, birth_year, site_id FROM persons WHERE id=" + id);
     }
 
     @Test
@@ -97,9 +98,10 @@ class PersonDaoTest {
         when(resultSetMock.getInt(1)).thenReturn(expResult.getId());
         when(resultSetMock.getString(2)).thenReturn(expResult.getPersonName());
         when(resultSetMock.getInt(3)).thenReturn(expResult.getBirthYear());
+        when(resultSetMock.getInt(4)).thenReturn(personInstance.getSiteId());
         when(dbConnectionManagerMock.prepareStatement(
-                "INSERT INTO persons (name, birth_year) " +
-                        "VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS))
+                "INSERT INTO persons (name, birth_year, site_id) " +
+                        "VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS))
                 .thenReturn(preparedStatementMock);
 
         Person result = instance.save(expResult);
@@ -116,8 +118,8 @@ class PersonDaoTest {
         verify(resultSetMock, times(1)).next();
         verify(preparedStatementMock, times(1)).executeUpdate();
         verify(dbConnectionManagerMock, times(1))
-                .prepareStatement("INSERT INTO persons (name, birth_year) " +
-                        "VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+                .prepareStatement("INSERT INTO persons (name, birth_year, site_id) " +
+                        "VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
     }
 
     @Test
@@ -125,7 +127,8 @@ class PersonDaoTest {
         System.out.println("testUpdate");
         int id = 1;
         Person expResult = personInstance;
-        when(dbConnectionManagerMock.prepareStatement("UPDATE persons SET name=?, birth_year=? WHERE id=" + id, Statement.RETURN_GENERATED_KEYS))
+        when(dbConnectionManagerMock.prepareStatement("UPDATE persons SET name=?, birth_year=?, site_id=?" +
+                " WHERE id=" + id, Statement.RETURN_GENERATED_KEYS))
                 .thenReturn(preparedStatementMock);
         when(resultSetMock.getString(2)).thenReturn(expResult.getPersonName());
         when(resultSetMock.getInt(3)).thenReturn(expResult.getBirthYear());
@@ -139,7 +142,8 @@ class PersonDaoTest {
         verify(preparedStatementMock, times(1)).setInt(2, expResult.getBirthYear());
         verify(preparedStatementMock, times(1)).executeUpdate();
         verify(dbConnectionManagerMock, times(1))
-                .prepareStatement("UPDATE persons SET name=?, birth_year=? WHERE id=" + id, Statement.RETURN_GENERATED_KEYS);
+                .prepareStatement("UPDATE persons SET name=?, birth_year=?, site_id=?" +
+                        " WHERE id=" + id, Statement.RETURN_GENERATED_KEYS);
     }
 
     @Test
@@ -151,8 +155,9 @@ class PersonDaoTest {
         when(resultSetMock.getInt(1)).thenReturn(expResult.getId());
         when(resultSetMock.getString(2)).thenReturn(expResult.getPersonName());
         when(resultSetMock.getInt(3)).thenReturn(expResult.getBirthYear());
+        when(resultSetMock.getInt(4)).thenReturn(expResult.getSiteId());
         when(preparedStatementMock.executeUpdate()).thenReturn(1);
-        when(dbConnectionManagerMock.excecuteQuery("SELECT id, name, birth_year FROM persons WHERE id=" + id))
+        when(dbConnectionManagerMock.excecuteQuery("SELECT id, name, birth_year, site_id FROM persons WHERE id=" + id))
                 .thenReturn(resultSetMock);
         when(dbConnectionManagerMock.prepareStatement("DELETE FROM persons WHERE id = ?", Statement.RETURN_GENERATED_KEYS))
                 .thenReturn(preparedStatementMock);

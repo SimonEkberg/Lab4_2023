@@ -1,10 +1,7 @@
 package service;
 
 import domainModell.person.Person;
-import repository.Dao;
-import repository.DaoFactory;
 import repository.PersonDao;
-import repository.RoomDao;
 
 import java.util.List;
 

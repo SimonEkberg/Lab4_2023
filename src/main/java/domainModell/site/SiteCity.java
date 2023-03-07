@@ -1,26 +1,28 @@
 package domainModell.site;
 
+import domainModell.room.RoomType;
+
 public class SiteCity {
-    private String city;
+    private String siteCity;
     private enum SiteCities{STOCKHOLM, GÄVLE, MALMÖ, GÖTEBORG;}
 
-    public SiteCity(String city) {
-        this.city = siteCityFromString(city);
+    public SiteCity(String siteCity) {
+        this.siteCity = cityTypefromString(siteCity);
     }
-    public String getCity(){
-        return this.city;
+    public String getSiteCity(){
+        return this.siteCity;
     }
-    public void setSiteCity(String roomType){
-        this.city = siteCityFromString(roomType);
+    public void setSiteCity(String siteCity){
+        this.siteCity = cityTypefromString(siteCity);
     }
 
-    private String siteCityFromString(String city) {
-        if (city == null || city.trim().isEmpty())
+    private String cityTypefromString(String siteCity) {
+        if (siteCity == null || siteCity.trim().isEmpty())
             return "UNSPECIFIED";
-        for (SiteCities c : SiteCities.values()) {
-            if (this.city.equalsIgnoreCase("UNSPECIFIED") || city.toString().equalsIgnoreCase(city))
-                return this.city.trim();
+        for (SiteCity.SiteCities type : SiteCity.SiteCities.values()) {
+            if (siteCity.equalsIgnoreCase("UNSPECIFIED") || type.toString().equalsIgnoreCase(siteCity))
+                return siteCity.trim();
         }
-        throw new IllegalArgumentException("Invalid room type: " + city);
+        throw new IllegalArgumentException("Invalid city: " + siteCity);
     }
 }

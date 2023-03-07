@@ -3,18 +3,26 @@ package domainModell.site;
 import domainModell.person.Person;
 
 public class Site {
-    private SiteId id;
+    private int id;
     private SiteName siteName;
     private SiteCity siteCity;
 
     public Site(int id, String name, String siteCity) {
-        this.id = new SiteId(id);
+     //   this.id = new SiteId(id);
         this.siteName = new SiteName(name);
         this.siteCity = new SiteCity(siteCity);
+        setSiteid(id);
+    }
+    private void setSiteid(int id){
+        if(SiteId.getInstance().addSiteSiteId(id)){
+            this.id = id;
+        }else {
+            throw new IllegalArgumentException("Site ID already exist");
+        }
     }
 
-    public long getId() {
-        return this.id.getId();
+    public int getId() {
+        return this.id;
     }
 
     public String getName() {
@@ -26,7 +34,7 @@ public class Site {
     }
 
     public String getSiteCity() {
-        return siteCity.getCity();
+        return siteCity.getSiteCity();
     }
 
     public void setSiteCity(String city) {
@@ -34,10 +42,10 @@ public class Site {
     }
     @Override
     public boolean equals(Object o) {
-        if (this == o) { //if same object
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) { //if null or not the same class
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Site site = (Site) o;
@@ -51,7 +59,7 @@ public class Site {
         return "Site{" +
                 "Id: " + id +
                 ", Namn: " + siteName.getName() +
-                ", Stad: " + siteCity.getCity() +
+                ", Stad: " + siteCity.getSiteCity() +
                 '}';
     }
 }

@@ -6,7 +6,7 @@ public class Person{
     private int id;
     private PersonName personName;
     private PersonBirthYear personBirthYear;
-    private SiteId siteId;
+    private int siteId;
 
 
 
@@ -17,20 +17,24 @@ public class Person{
         this.id = id;
         this.personName = new PersonName(personName);
         this.personBirthYear = new PersonBirthYear(personBirthYear);
-        this.siteId = new SiteId(siteId);
+        setSiteId(siteId);
     }
-
-    public int getSiteId() {
-        return siteId.getId();
-    }
-
-    public void setSiteId(int siteId) {
-        this.siteId = new SiteId(siteId);
-    }
-
     public Person(String name, int birthYear, int siteId){
         this(0,name,birthYear,siteId);
     }
+    public Person(String name, int birthYear){
+        this(0,name,birthYear,0);
+    }
+    public void setSiteId(int siteId){
+        if(SiteId.getInstance().addEntitySiteId(siteId))
+            this.siteId = siteId;
+    }
+
+    public int getSiteId() {
+        return this.siteId;
+    }
+
+
 
     public String getPersonName() {
         return personName.getName().toString();
@@ -52,17 +56,12 @@ public class Person{
         this.personBirthYear = new PersonBirthYear(birthYear);
     }
 
-
-  /*  @Override
-    public boolean equals(Object p){
-        return p instanceof Person && hashCode() == p.hashCode();
-    }*/
   @Override
   public boolean equals(Object o) {
-      if (this == o) { //if same object
+      if (this == o) {
           return true;
       }
-      if (o == null || getClass() != o.getClass()) { //if null or not the same class
+      if (o == null || getClass() != o.getClass()) {
           return false;
       }
       Person person = (Person) o;
@@ -72,31 +71,13 @@ public class Person{
               getSiteId() == person.getSiteId();
   }
 
- /* @Override
-  public int hashCode() {
-      int result = 17;
-      result = 31 * result + id;
-      result = 31 * result + personName.hashCode();
-      result = 31 * result + personBirthYear.hashCode();
-      return result;
-  }*/
-   /*  @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + this.id;
-        hash = 29 * hash + Objects.hashCode(this.personName);
-        hash = 29 * hash + Objects.hashCode(Integer.valueOf(personBirthYear.getBirthYear()));
-        return hash;
-    }*/
-
-
     @Override
     public String toString() {
         return "Person{" +
                 "Id: " + id +
                 ", Namn: " + personName.getName() +
                 ", Födelseår: " + personBirthYear.getBirthYear() +
-                ", SiteId: " + siteId.getId() +
+                ", SiteId: " + siteId +
                 '}';
     }
 }

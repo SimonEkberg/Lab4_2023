@@ -57,8 +57,8 @@ class PersonTest {
 
     @Test
     void equals(){
-        Person person = new Person(1, "Simon", 2000, 1);
-        Person person2 = new Person(1, "Simon", 2000, 1);
+        Person person = new Person(1, "Simon", 2000,0);
+        Person person2 = new Person(1, "Simon", 2000,0);
         assertTrue(person.equals(person2));
         assertEquals(person2, person);
     }

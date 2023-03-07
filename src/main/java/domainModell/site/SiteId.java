@@ -4,21 +4,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SiteId {
-    private int id;
- //   private List<Long> siteIdList = new ArrayList();
+    private static SiteId instance;
+    private List<Integer> siteIdList;
 
-    public SiteId(int id) {
-        this.id = id;
-     //   siteIdList.add(id);
-    }
-    public SiteId(){
-        this(0);
+    private SiteId() {
+        siteIdList = new ArrayList<>();
     }
 
-    public int getId() {
-        return this.id;
+    public static SiteId getInstance() {
+        if (instance == null) {
+            instance = new SiteId();
+        }
+        return instance;
     }
- /*   public List<Long> getSiteIdList() {
+
+    public List<Integer> getSiteIdList() {
         return siteIdList;
-    }*/
+    }
+
+    public boolean addSiteSiteId(int siteId) {
+        if (isValidSiteIdForSites(siteId)) {
+            siteIdList.add(siteId);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Site ID already exists: " + siteId);
+        }
+    }
+
+    public boolean addEntitySiteId(int siteId) {
+        if (isValidSiteIdForEntities(siteId)) {
+            return true;
+        } else {
+            throw new IllegalArgumentException("Site ID not found: " + siteId);
+        }
+    }
+
+    private boolean isValidSiteIdForEntities(int siteId) {
+        return siteId == 0 || siteIdList.contains(siteId);
+    }
+    private boolean isValidSiteIdForSites(int siteId) {
+        return siteId != 0 || !siteIdList.contains(siteId);
+    }
 }
