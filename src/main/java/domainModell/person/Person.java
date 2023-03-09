@@ -26,8 +26,9 @@ public class Person{
         this(0,name,birthYear,0);
     }
     public void setSiteId(int siteId){
-        if(SiteId.getInstance().addEntitySiteId(siteId))
-            this.siteId = siteId;
+       /* if(SiteId.getInstance().addEntitySiteId(siteId))
+            this.siteId = siteId;*/
+        this.siteId = siteId;
     }
 
     public int getSiteId() {

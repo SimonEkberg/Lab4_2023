@@ -3,7 +3,9 @@ package service;
 import domainModell.person.Person;
 import repository.PersonDao;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class PersonService {
     private final PersonDao personDao;
@@ -15,21 +17,24 @@ public class PersonService {
         this.personDao = personDao;
     }
 
-    public Person getPerson(int id){
+    public Optional<Person> getPerson(int id) throws SQLException {
         return personDao.get(id);
     }
 
     public List<Person> findAllPerson(){
         return personDao.getAll();
     }
-    public Person savePerson(Person person){
+    public Optional<Person> savePerson(Person person){
         return personDao.save(person);
     }
 
-    public Person updatePerson(Person person){
+    public Optional<Person> updatePerson(Person person){
         return personDao.update(person);
     }
-    public Person deletePerson(int id){
+    public Optional<Person> deletePerson(int id) throws SQLException {
         return personDao.delete(id);
+    }
+    public List<Person> findAllPersonBySiteId(){
+        return personDao.getAll();
     }
 }

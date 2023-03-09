@@ -4,6 +4,7 @@ import domainModell.room.Room;
 import repository.RoomDao;
 
 import java.util.List;
+import java.util.Optional;
 
 public class RoomService {
     private RoomDao roomDao;
@@ -13,19 +14,19 @@ public class RoomService {
     public RoomService(RoomDao roomDao){
         this.roomDao=roomDao;
     }
-    public Room getRoom(int id){
+    public Optional<Room> getRoom(int id){
         return roomDao.get(id);
     }
     public List<Room> findAllRoom(){
         return roomDao.getAll();
     }
-    public Room saveRoom(Room room){
+    public Optional<Room> saveRoom(Room room){
         return roomDao.save(room);
     }
-    public Room updateRoom(Room room){
+    public Optional<Room> updateRoom(Room room){
         return roomDao.update(room);
     }
-    public Room deleteRoom(int id){
+    public Optional<Room> deleteRoom(int id){
         return roomDao.delete(id);
     }
 }

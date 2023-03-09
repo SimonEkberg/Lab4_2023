@@ -2,7 +2,9 @@ package repository;
 
 import domainModell.person.Person;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Interface for all CRUD operations of DAO classes
@@ -13,13 +15,14 @@ import java.util.List;
  */
 public interface Dao<T> {
 
-    T get(int id);
+    Optional<T> get(int id) throws SQLException;
 
     List<T> getAll();
 
-    T save(T t);
+    Optional<T> save(T t);
 
-    T update(T t);
+    Optional<T> update(T t);
 
-    T delete(int id);
+    Optional<T> delete(int id) throws SQLException;
 }
+

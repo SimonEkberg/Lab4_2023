@@ -4,14 +4,16 @@ import domainModell.room.Room;
 import repository.DaoFactory;
 import service.BaseService;
 
-public class UpdateRoomService extends BaseService<Room> {
+import java.util.Optional;
+
+public class UpdateRoomService extends BaseService<Optional> {
     private Room room;
     public UpdateRoomService(Room room){
         this.room = room;
     }
 
     @Override
-    public Room execute() {
-        return (Room) daoFactory.get(DaoFactory.type.ROOM).update(this.room);
+    public Optional execute() {
+        return daoFactory.get(DaoFactory.type.ROOM).update(this.room);
     }
 }

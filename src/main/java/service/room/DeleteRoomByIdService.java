@@ -1,16 +1,18 @@
 package service.room;
 
-import domainModell.room.Room;
 import repository.DaoFactory;
 import service.BaseService;
 
-public class DeleteRoomByIdService extends BaseService<Room> {
+import java.sql.SQLException;
+import java.util.Optional;
+
+public class DeleteRoomByIdService extends BaseService<Optional> {
     private int id;
     public DeleteRoomByIdService(int id){
         this.id = id;
     }
     @Override
-    public Room execute() {
-        return (Room) daoFactory.get(DaoFactory.type.ROOM).delete(id);
+    public Optional execute() throws SQLException {
+        return daoFactory.get(DaoFactory.type.ROOM).delete(id);
     }
 }

@@ -8,10 +8,10 @@ public class Site {
     private SiteCity siteCity;
 
     public Site(int id, String name, String siteCity) {
-     //   this.id = new SiteId(id);
         this.siteName = new SiteName(name);
         this.siteCity = new SiteCity(siteCity);
-        setSiteid(id);
+        this.id = id;
+      //  setSiteid(id);
     }
     private void setSiteid(int id){
         if(SiteId.getInstance().addSiteSiteId(id)){

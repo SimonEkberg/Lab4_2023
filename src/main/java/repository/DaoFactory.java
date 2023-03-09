@@ -11,7 +11,8 @@ public class DaoFactory {
         return switch (type) {
             case PERSON -> new PersonDao();
             case ROOM -> new RoomDao();
+            case SITE -> new SiteDao();
         };
     }
-    public enum type {PERSON, ROOM}
+    public enum type {PERSON, SITE, ROOM}
 }

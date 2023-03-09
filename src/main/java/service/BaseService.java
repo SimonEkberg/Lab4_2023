@@ -2,6 +2,9 @@ package service;
 
 import db.DbConnectionManager;
 import repository.DaoFactory;
+
+import java.sql.SQLException;
+
 /**
 * @author
 * @param <T>
@@ -15,5 +18,5 @@ public abstract class BaseService<T> implements ServiceCommand<T>{
         this.daoFactory = daoFactory;
     }
     @Override
-    public abstract T execute();
+    public abstract T execute() throws SQLException;
 }

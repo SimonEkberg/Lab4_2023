@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import repository.PersonDao;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,12 +26,12 @@ class PersonServiceTest {
         instance = new PersonService(personDaoMock);
     }
     @Test
-    void getPerson() {
+    void getPerson() throws SQLException {
         System.out.println("getPerson");
         int id = 1;
         Person person = new Person(id, "Simon Ekberg", 1989);
-        when(personDaoMock.get(id)).thenReturn(person);
-        Person result = instance.getPerson(id);
+        when(personDaoMock.get(id)).thenReturn(Optional.of(person));
+        Optional<Person> result = instance.getPerson(id);
         assertTrue(person.equals(result));
         assertEquals(person.toString(), result.toString());
         verify(personDaoMock, times(1)).get(id);
@@ -52,8 +54,8 @@ class PersonServiceTest {
     void savePerson() {
         System.out.println("savePerson");
         Person expResult = new Person(1,"Simon Ekberg", 1989);
-        when(personDaoMock.save(expResult)).thenReturn(expResult);
-        Person result = instance.savePerson(expResult);
+        when(personDaoMock.save(expResult)).thenReturn(Optional.of(expResult));
+        Optional<Person> result = instance.savePerson(expResult);
         assertTrue(expResult.equals(result));
         assertEquals(expResult, result);
         verify(personDaoMock, times(1)).save(expResult);
@@ -63,8 +65,8 @@ class PersonServiceTest {
     void updatePerson() {
         System.out.println("updatePerson");
         Person expResult = new Person(1, "Simon Ekberg", 1989);
-        when(personDaoMock.update(expResult)).thenReturn(expResult);
-        Person result = instance.updatePerson(expResult);
+        when(personDaoMock.update(expResult)).thenReturn(Optional.of(expResult));
+        Optional<Person> result = instance.updatePerson(expResult);
         assertTrue(expResult.equals(result));
         assertEquals(expResult, result);
         verify(personDaoMock, times(1)).update(expResult);
@@ -82,13 +84,13 @@ class PersonServiceTest {
         verify(personDaoMock, times(1)).delete(id);
     }*/
    @Test
-   void deletePerson() {
+   void deletePerson() throws SQLException {
        System.out.println("deletePerson");
        int id = 1;
        Person person = new Person(id, "Simon", 1989);
-       when(personDaoMock.delete(id)).thenReturn(person);
+       when(personDaoMock.delete(id)).thenReturn(Optional.of(person));
        Person expResult = person;
-       Person result = instance.deletePerson(id);
+       Optional<Person> result = instance.deletePerson(id);
        assertEquals(expResult, result);
        verify(personDaoMock, times(1)).delete(id);
    }

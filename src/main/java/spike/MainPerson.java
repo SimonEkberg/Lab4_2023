@@ -12,6 +12,7 @@ import service.ServiceRunner;
 import service.person.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MainPerson {
     public static void main(String[] args) {
@@ -21,25 +22,27 @@ public class MainPerson {
         ServiceRunner<Person> runner2 = new ServiceRunner(new GetPersonByIdService(id));
         Person person = runner2.execute();
         System.out.println(person);*/
-        Site site = new Site(1, "Donken", "GÄVLE");
+     /*   Site site = new Site(1, "Donken", "GÄVLE");
         Person person = new Person(40, "Simon Ekberg", 2019,1);
         ServiceRunner<Person> serviceRunner1 = new ServiceRunner(new SavePersonService(person));
-        serviceRunner1.execute();
+        serviceRunner1.execute();*/
 
-        ServiceRunner<List<Person>> serviceRunner = new ServiceRunner(new FindAllPersonService());
+        ServiceRunner<List<Person>> serviceRunner = new ServiceRunner(new FindAllPersonBySiteId(8));
         List<Person> personList = serviceRunner.execute();
         for(Person p: personList){
             System.out.println(p);
         }
 
-  /*      ServiceRunner<Person> serviceRunner = new ServiceRunner(new DeletePersonByIdService(26));
+    /*    ServiceRunner<Person> serviceRunner = new ServiceRunner(new DeletePersonByIdService(26));
         Person person = serviceRunner.execute();*/
 
 
-      /*  int id = 39;
-        ServiceRunner<Person> serviceRunner = new ServiceRunner<>(new DeletePersonByIdService(id));
-        Person updatedPerson = serviceRunner.execute();
+      /*  int id = 1;
+      //  Person person = (new Person(id, "Optional", 2020));
+        ServiceRunner<Optional<Person>> serviceRunner = new ServiceRunner<>(new GetPersonByIdService((id)));
+        Optional<Optional<Person>> updatedPerson = Optional.ofNullable(serviceRunner.execute());
         System.out.println(updatedPerson);*/
+
 
 
     }

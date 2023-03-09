@@ -11,6 +11,7 @@ import service.person.FindAllPersonService;
 import service.room.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MainRoom {
     public static void main(String[] args) throws CleaningManagerServiceException {
@@ -32,8 +33,8 @@ public class MainRoom {
         Room updatedRoom = serviceRunner.execute();
         System.out.println(updatedRoom);*/
         int id = 1;
-        ServiceRunner<Room> serviceRunner = new ServiceRunner<>(new GetRoomByIdService(id));
-        Room room = serviceRunner.execute();
+        ServiceRunner<Optional> serviceRunner = new ServiceRunner<>(new GetRoomByIdService(id));
+        Optional room = serviceRunner.execute();
         System.out.println(room);
     }
 }

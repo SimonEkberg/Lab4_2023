@@ -4,13 +4,15 @@ import domainModell.room.Room;
 import repository.DaoFactory;
 import service.BaseService;
 
-public class SaveRoomService extends BaseService<Room> {
+import java.util.Optional;
+
+public class SaveRoomService extends BaseService<Optional> {
     private Room room;
     public SaveRoomService(Room room){
         this.room = room;
     }
     @Override
-    public Room execute() {
-        return (Room) daoFactory.get(DaoFactory.type.ROOM).save(this.room);
+    public Optional execute() {
+        return daoFactory.get(DaoFactory.type.ROOM).save(this.room);
     }
 }

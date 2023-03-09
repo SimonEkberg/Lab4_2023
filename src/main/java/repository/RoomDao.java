@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * DAO for the persistent handling of a Room object. It manages all
@@ -35,7 +36,7 @@ public class RoomDao implements Dao<Room> {
     }
 
     @Override
-    public Room get(int id) throws NoSuchElementException {
+    public Optional<Room> get(int id) throws NoSuchElementException {
         Room room = null;
         try{
             ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT id, room_number, room_area," +
@@ -52,7 +53,7 @@ public class RoomDao implements Dao<Room> {
             e.printStackTrace();
         }
 
-        return room;
+        return Optional.ofNullable(room);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class RoomDao implements Dao<Room> {
     }
 
     @Override
-    public Room save(Room t) {
+    public Optional<Room> save(Room t) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet;
         try {
@@ -89,15 +90,15 @@ public class RoomDao implements Dao<Room> {
             if(rowsAffected == 1) {
                 resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
-                return new Room(resultSet.getInt(1),t.getRoomNumber(), t.getRoomArea(), t.getRoomType());
+                return Optional.of(new Room(resultSet.getInt(1), t.getRoomNumber(), t.getRoomArea(), t.getRoomType()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return t;
+        return Optional.ofNullable(t);
     }
 
-    public Room update(Room t) throws NoSuchElementException {
+    public Optional<Room> update(Room t) throws NoSuchElementException {
         PreparedStatement preparedStatement = null;
         int rowCount = 0;
         try {
@@ -112,11 +113,11 @@ public class RoomDao implements Dao<Room> {
         }
         if (rowCount == 0)
             throw new NoSuchElementException("Room with ID " + t.getId() + " does not exist in the database.");
-        return new Room(t.getId(), t.getRoomNumber(), t.getRoomArea(), t.getRoomType());
+        return Optional.of(new Room(t.getId(), t.getRoomNumber(), t.getRoomArea(), t.getRoomType()));
     }
 
     @Override
-    public Room delete(int id) {
+    public Optional<Room> delete(int id) {
         Room room = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -136,6 +137,6 @@ public class RoomDao implements Dao<Room> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return room;
+        return Optional.ofNullable(room);
     }
 }

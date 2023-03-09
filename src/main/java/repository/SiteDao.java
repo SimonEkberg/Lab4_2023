@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class SiteDao implements Dao<Site> {
 
@@ -23,7 +24,7 @@ public class SiteDao implements Dao<Site> {
     }
 
     @Override
-    public Site get(int id) throws NoSuchElementException {
+    public Optional<Site> get(int id) throws NoSuchElementException {
         Site site = null;
         try {
             ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT id, site_name, site_city FROM sites WHERE id=" + id);
@@ -36,7 +37,7 @@ public class SiteDao implements Dao<Site> {
             e.printStackTrace();
         }
 
-        return site;
+        return Optional.ofNullable(site);
     }
 
     @Override
@@ -58,9 +59,10 @@ public class SiteDao implements Dao<Site> {
     }
 
     @Override
-    public Site save(Site t) {
+    public Optional<Site> save(Site t) {
         ResultSet resultSet;
         PreparedStatement preparedStatement = null;
+        DbConnectionManager.getInstance().open();
         try {
             preparedStatement = dbConManagerSingleton.prepareStatement(
                     "INSERT INTO sites (site_name, site_city) " +
@@ -71,15 +73,16 @@ public class SiteDao implements Dao<Site> {
             if (rowsAffected == 1) {
                 resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
-                return new Site(resultSet.getInt(1), t.getName(), t.getSiteCity());
+                return Optional.of(new Site(resultSet.getInt(1), t.getName(), t.getSiteCity()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return t;
+        DbConnectionManager.getInstance().close();
+        return Optional.ofNullable(t);
     }
 
-    public Site update(Site t) throws NoSuchElementException {
+    public Optional<Site> update(Site t) throws NoSuchElementException {
         PreparedStatement preparedStatement = null;
         int rowCount = 0;
         try {
@@ -94,11 +97,11 @@ public class SiteDao implements Dao<Site> {
         if (rowCount == 0) {
             throw new NoSuchElementException("Site with ID " + t.getId() + " does not exist in the database.");
         }
-        return new Site((int) t.getId(), t.getName(), t.getSiteCity());
+        return Optional.of(new Site((int) t.getId(), t.getName(), t.getSiteCity()));
     }
 
     @Override
-    public Site delete(int id) {
+    public Optional<Site> delete(int id) {
         Site site = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -117,6 +120,6 @@ public class SiteDao implements Dao<Site> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return site;
+        return Optional.ofNullable(site);
     }
 }

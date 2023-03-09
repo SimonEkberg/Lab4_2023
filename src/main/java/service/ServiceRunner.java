@@ -4,6 +4,7 @@ import db.DbConnectionManager;
 import repository.DaoFactory;
 import service.logging.Logger;
 
+import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 public class ServiceRunner<T>{
@@ -20,10 +21,13 @@ public class ServiceRunner<T>{
             String nameOfServiceClass = infoClass.getSimpleName();
             Logger.get().info(() -> String.format("Name of service: %s: Reult: %s", nameOfServiceClass, result));
             return result;
-        }catch (NoSuchElementException e) {
-         //   Logger.get().error(() ->);
+        }/*catch (NoSuchElementException e) {
+            Logger.get().error(e);
             throw new CleaningManagerServiceException(e.getMessage());
-        }finally {
+        } */
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
             DbConnectionManager.getInstance().close();
         }
     }
