@@ -17,11 +17,11 @@ public interface Dao<T> {
 
     Optional<T> get(int id) throws SQLException;
 
-    List<T> getAll();
+    List<T> getAll() throws SQLException;
 
-    Optional<T> save(T t);
+    Optional<T> save(T t) throws SQLException;
 
-    Optional<T> update(T t);
+    Optional<T> update(T t) throws SQLException;
 
     Optional<T> delete(int id) throws SQLException;
 }

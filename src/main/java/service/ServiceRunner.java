@@ -19,13 +19,11 @@ public class ServiceRunner<T>{
             T result = this.service.execute();
             Class infoClass = this.service.getClass();
             String nameOfServiceClass = infoClass.getSimpleName();
-            Logger.get().info(() -> String.format("Name of service: %s: Reult: %s", nameOfServiceClass, result));
+            Logger.get().info(() -> String.format("Name of service: %s\nResult: %s", nameOfServiceClass, result));
             return result;
-        }/*catch (NoSuchElementException e) {
-            Logger.get().error(e);
-            throw new CleaningManagerServiceException(e.getMessage());
-        } */
+        }
         catch (SQLException e) {
+            Logger.get().error(e);
             throw new RuntimeException(e);
         } finally {
             DbConnectionManager.getInstance().close();

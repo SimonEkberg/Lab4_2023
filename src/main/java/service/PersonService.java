@@ -21,20 +21,20 @@ public class PersonService {
         return personDao.get(id);
     }
 
-    public List<Person> findAllPerson(){
+    public List<Person> findAllPerson() throws SQLException {
         return personDao.getAll();
     }
-    public Optional<Person> savePerson(Person person){
+    public Optional<Person> savePerson(Person person) throws SQLException {
         return personDao.save(person);
     }
 
-    public Optional<Person> updatePerson(Person person){
+    public Optional<Person> updatePerson(Person person) throws SQLException {
         return personDao.update(person);
     }
     public Optional<Person> deletePerson(int id) throws SQLException {
         return personDao.delete(id);
     }
-    public List<Person> findAllPersonBySiteId(){
+    public List<Person> findAllPersonBySiteId() throws SQLException {
         return personDao.getAll();
     }
 }

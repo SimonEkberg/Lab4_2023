@@ -37,7 +37,7 @@ class PersonServiceTest {
         verify(personDaoMock, times(1)).get(id);
     }
    @Test
-   void findAll() {
+   void findAll() throws SQLException {
        System.out.println("FindAll");
        List<Person> expResult = List.of(new Person(1, "Simon", 1989),
                new Person(2, "Ekberg", 2000));
@@ -51,7 +51,7 @@ class PersonServiceTest {
        verify(personDaoMock, times(1)).getAll();
    }
     @Test
-    void savePerson() {
+    void savePerson() throws SQLException {
         System.out.println("savePerson");
         Person expResult = new Person(1,"Simon Ekberg", 1989);
         when(personDaoMock.save(expResult)).thenReturn(Optional.of(expResult));
@@ -62,7 +62,7 @@ class PersonServiceTest {
     }
 
     @Test
-    void updatePerson() {
+    void updatePerson() throws SQLException {
         System.out.println("updatePerson");
         Person expResult = new Person(1, "Simon Ekberg", 1989);
         when(personDaoMock.update(expResult)).thenReturn(Optional.of(expResult));

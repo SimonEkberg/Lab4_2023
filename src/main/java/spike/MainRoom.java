@@ -28,13 +28,11 @@ public class MainRoom {
     /*    ServiceRunner<Room> serviceRunner = new ServiceRunner<>(new GetRoomByIdService(41));
         Room room = serviceRunner.execute();
         System.out.println(room);*/
-    /*    Room room = new Room(41, 1,1,"BEDROOM");
-        ServiceRunner<Room> serviceRunner = new ServiceRunner<>(new UpdateRoomService(room));
-        Room updatedRoom = serviceRunner.execute();
-        System.out.println(updatedRoom);*/
-        int id = 1;
-        ServiceRunner<Optional> serviceRunner = new ServiceRunner<>(new GetRoomByIdService(id));
+     /*   Room room = new Room(41, 50, 50, "");
+        ServiceRunner<Room> serviceRunner = new ServiceRunner(new UpdateRoomService(room));
+        serviceRunner.execute();*/
+        int id = 41;
+        ServiceRunner<Optional> serviceRunner = new ServiceRunner<>(new DeleteRoomByIdService(id));
         Optional room = serviceRunner.execute();
-        System.out.println(room);
     }
 }

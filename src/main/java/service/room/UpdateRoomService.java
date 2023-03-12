@@ -4,6 +4,7 @@ import domainModell.room.Room;
 import repository.DaoFactory;
 import service.BaseService;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class UpdateRoomService extends BaseService<Optional> {
@@ -13,7 +14,7 @@ public class UpdateRoomService extends BaseService<Optional> {
     }
 
     @Override
-    public Optional execute() {
+    public Optional execute() throws SQLException {
         return daoFactory.get(DaoFactory.type.ROOM).update(this.room);
     }
 }

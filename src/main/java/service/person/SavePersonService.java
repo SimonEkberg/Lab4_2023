@@ -4,7 +4,7 @@ import domainModell.person.Person;
 import repository.DaoFactory;
 import service.BaseService;
 
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class SavePersonService extends BaseService<Optional<Person>> {
@@ -13,7 +13,7 @@ public class SavePersonService extends BaseService<Optional<Person>> {
         this.person = person;
     }
     @Override
-    public Optional<Person> execute() {
+    public Optional<Person> execute() throws SQLException {
         return daoFactory.get(DaoFactory.type.PERSON).save(this.person);
     }
 }

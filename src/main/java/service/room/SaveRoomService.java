@@ -4,6 +4,7 @@ import domainModell.room.Room;
 import repository.DaoFactory;
 import service.BaseService;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class SaveRoomService extends BaseService<Optional> {
@@ -12,7 +13,7 @@ public class SaveRoomService extends BaseService<Optional> {
         this.room = room;
     }
     @Override
-    public Optional execute() {
+    public Optional execute() throws SQLException {
         return daoFactory.get(DaoFactory.type.ROOM).save(this.room);
     }
 }

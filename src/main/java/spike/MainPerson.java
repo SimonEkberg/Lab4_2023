@@ -18,28 +18,29 @@ public class MainPerson {
     public static void main(String[] args) {
      //   PersonService personService = new PersonService();
     //    DbConnectionManager.getInstance().open();
-     /*   int id = 22;
-        ServiceRunner<Person> runner2 = new ServiceRunner(new GetPersonByIdService(id));
-        Person person = runner2.execute();
-        System.out.println(person);*/
-     /*   Site site = new Site(1, "Donken", "GÄVLE");
-        Person person = new Person(40, "Simon Ekberg", 2019,1);
+        int id = 87;
+        ServiceRunner<Person> runner2 = new ServiceRunner(new DeletePersonByIdService(id));
+        runner2.execute();
+
+     //   Site site = new Site(1, "Donken", "GÄVLE");
+  /*      Person person = new Person(40, "Simon Ekberg", 2019,1);
         ServiceRunner<Person> serviceRunner1 = new ServiceRunner(new SavePersonService(person));
         serviceRunner1.execute();*/
 
-        ServiceRunner<List<Person>> serviceRunner = new ServiceRunner(new FindAllPersonBySiteId(8));
+       /* ServiceRunner<List<Person>> serviceRunner = new ServiceRunner(new FindAllPersonService());
         List<Person> personList = serviceRunner.execute();
         for(Person p: personList){
             System.out.println(p);
-        }
+        }*/
 
-    /*    ServiceRunner<Person> serviceRunner = new ServiceRunner(new DeletePersonByIdService(26));
-        Person person = serviceRunner.execute();*/
+   //     ServiceRunner<Optional<Person>> serviceRunner = new ServiceRunner(new FindAllPersonBySiteId(2));
+    //    serviceRunner.execute();
+    //    Optional<Optional<Person>> updatedPerson = Optional.ofNullable(serviceRunner.execute());
 
 
-      /*  int id = 1;
-      //  Person person = (new Person(id, "Optional", 2020));
-        ServiceRunner<Optional<Person>> serviceRunner = new ServiceRunner<>(new GetPersonByIdService((id)));
+       /* int id = 87;
+        Person person = (new Person(id, "Update", 1999));
+        ServiceRunner<Optional<Person>> serviceRunner = new ServiceRunner<>(new UpdatePersonService((person)));
         Optional<Optional<Person>> updatedPerson = Optional.ofNullable(serviceRunner.execute());
         System.out.println(updatedPerson);*/
 
