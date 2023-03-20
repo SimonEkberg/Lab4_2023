@@ -1,6 +1,7 @@
 package repository;
 
 import db.DbConnectionManager;
+import domainModell.person.Person;
 import domainModell.site.Site;
 
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class SiteDao implements Dao<Site> {
+public class SiteDao extends BasicDao<Site> implements Dao<Site> {
 
     DbConnectionManager dbConManagerSingleton = null;
     public SiteDao() {
@@ -41,21 +42,8 @@ public class SiteDao implements Dao<Site> {
     }
 
     @Override
-    public List<Site> getAll() {
-        ArrayList<Site> list = new ArrayList<>();
-        try {
-            ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT id, site_name, site_city FROM sites");
-            while (resultSet.next()) {
-                list.add(new Site(resultSet.getInt(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3))
-                );
-            }
-            dbConManagerSingleton.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
+    public List<Site> getAll() throws SQLException {
+        return super.getAll("SELECT id, site_name, site_city FROM sites");
     }
 
     @Override
@@ -121,5 +109,25 @@ public class SiteDao implements Dao<Site> {
             e.printStackTrace();
         }
         return Optional.ofNullable(site);
+    }
+
+    @Override
+    protected Site convertResultSetToDomainObject(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String name = resultSet.getString("site_name");
+        String city = resultSet.getString("site_city");
+        return new Site(id, name, city);
+    }
+
+    @Override
+    protected Site convertFromSaveOrUpdateToDomainObject(Optional<ResultSet> resultSet, List<Object> argLlist) throws SQLException {
+        int id;
+        if (resultSet != null) {
+            id = resultSet.get().getInt(1);
+        }else
+            id = (int) argLlist.get(2);
+        String name = (String) argLlist.get(0);
+        String city = (String) argLlist.get(1);
+        return new Site(id, name, city);
     }
 }

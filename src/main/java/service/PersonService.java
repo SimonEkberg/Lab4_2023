@@ -34,7 +34,4 @@ public class PersonService {
     public Optional<Person> deletePerson(int id) throws SQLException {
         return personDao.delete(id);
     }
-    public List<Person> findAllPersonBySiteId() throws SQLException {
-        return personDao.getAll();
-    }
 }

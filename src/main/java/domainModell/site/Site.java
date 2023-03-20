@@ -13,13 +13,13 @@ public class Site {
         this.id = id;
       //  setSiteid(id);
     }
-    private void setSiteid(int id){
+   /* private void setSiteid(int id){
         if(SiteId.getInstance().addSiteSiteId(id)){
             this.id = id;
         }else {
             throw new IllegalArgumentException("Site ID already exist");
         }
-    }
+    }*/
 
     public int getId() {
         return this.id;

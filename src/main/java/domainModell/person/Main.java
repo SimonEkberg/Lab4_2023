@@ -1,7 +1,6 @@
 package domainModell.person;
 
 import domainModell.site.Site;
-import domainModell.site.SiteId;
 import repository.SiteDao;
 
 public class Main {

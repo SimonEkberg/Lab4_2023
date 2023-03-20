@@ -14,16 +14,16 @@ import java.util.Optional;
 
 /**
  * DAO for the persistent handling of a Person object. It manages all
- * CRUD operations and conversion between the object world student and
+ * CRUD operations and conversion between the object world person and
  * the relational version person (DB version).
  * Due to the use of a DbConnectionManager the DAO doesn't need to
  * use, or even know, about any of lower level connections to the Database.
  * It 'speaks' in Objects with the object world (Domain model)and in
  * relational sql strings, tables, columns and result sets with the database.
  *
- * @author awi
+ * @author Simon Siljamäki Ekberg
  */
-public class PersonDao implements Dao<Person> {
+public class PersonDao extends BasicDao<Person> implements Dao<Person> {
 
     DbConnectionManager dbConManagerSingleton = null;
 
@@ -38,98 +38,54 @@ public class PersonDao implements Dao<Person> {
 
     @Override
     public Optional<Person> get(int id) throws SQLException {
-        Person person = null;
-        ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT id, name, birth_year, site_id" +
-                " FROM persons WHERE id=" + id);
-        if (resultSet.next()) {
-            String personName = resultSet.getString(2);
-            int birthYear = resultSet.getInt(3);
-            int siteId = resultSet.getInt(4);
-            person = new Person(id, personName, birthYear, siteId);
-        }
-        return Optional.ofNullable(person);
+        return super.get("SELECT id, name, birth_year, site_id FROM persons WHERE id=" + id);
     }
 
     @Override
     public List<Person> getAll() throws SQLException {
-        ArrayList<Person> list = new ArrayList<>();
-        ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT id, name, birth_year, site_id" +
-                " FROM persons");
-        while (resultSet.next()) {
-            list.add(new Person(resultSet.getInt(1),
-                    resultSet.getString(2),
-                    resultSet.getInt(3),
-                    resultSet.getInt(4))
-            );
-        }
-        return list;
+        return super.getAll("SELECT id, name, birth_year, site_id FROM persons");
     }
-
-    @Override
     public Optional<Person> save(Person person) throws SQLException {
-        ResultSet resultSet;
-        PreparedStatement preparedStatement = null;
-        preparedStatement = dbConManagerSingleton.prepareStatement(
-                "INSERT INTO persons (name, birth_year, site_id) " +
-                        "VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setString(1, person.getPersonName());
-        preparedStatement.setInt(2, person.getBirthYear());
-        preparedStatement.setInt(3, person.getSiteId());
-        int rowsAffected = preparedStatement.executeUpdate();
-        if (rowsAffected == 1) {
-            resultSet = preparedStatement.getGeneratedKeys();
-            resultSet.next();
-            return Optional.of(new Person(resultSet.getInt(1), person.getPersonName(), person.getBirthYear(), person.getSiteId()));
-        }
-        return Optional.ofNullable(person);
+        return super.save("INSERT INTO persons (name, birth_year, site_id) VALUES (?, ?, ?)",
+                                    person.getPersonName(), person.getBirthYear(), person.getSiteId());
     }
-
-    	@Override
-        public Optional<Person> update(Person person) throws NoSuchElementException, SQLException {
-            PreparedStatement preparedStatement = null;
-            int rowCount = 0;
-            preparedStatement = dbConManagerSingleton.prepareStatement(
-                    "UPDATE persons SET name=?, birth_year=?, site_id=? WHERE id=" + person.getId(), Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, person.getPersonName());
-            preparedStatement.setInt(2, person.getBirthYear());
-            preparedStatement.setInt(3, person.getSiteId());
-            rowCount = preparedStatement.executeUpdate();
-            return rowCount == 1 ? Optional.of(person) : Optional.empty();
-        }
 
     @Override
-    public Optional<Person> delete(int id) throws SQLException {
-        PreparedStatement preparedStatement = null;
-        Person person = null;
-        ResultSet resultSet = dbConManagerSingleton.excecuteQuery(
-                "SELECT id, name, birth_year, site_id FROM persons WHERE id=" + id);
-        if (resultSet.next()) {
-            person = new Person(id,
-                                resultSet.getString(2),
-                                resultSet.getInt(3),
-                                resultSet.getInt(4));
-            preparedStatement = dbConManagerSingleton.prepareStatement(
-                    "DELETE FROM persons WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-        }
-        return Optional.ofNullable(person);
+    public Optional<Person> update(Person person) throws NoSuchElementException, SQLException {
+        return super.update("UPDATE persons SET name=?, birth_year=?, site_id=? WHERE id=?",
+                                    person.getPersonName(), person.getBirthYear(), person.getSiteId(),person.getId());
     }
+   @Override
+   public Optional<Person> delete(int id) throws SQLException {
+       Optional<Person> person = super.get("SELECT id, name, birth_year, site_id FROM persons WHERE id=" + id);
+       if (person.isEmpty())
+           return person;
+       super.delete("DELETE FROM persons WHERE id=" + id);
+       return person;
 
-
+   }
     public List<Person> getPersonsBySiteId(int id) throws SQLException {
-        ArrayList<Person> list = new ArrayList<>();
-        ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT id, name, birth_year, site_id " +
-                "FROM persons " +
-                "WHERE site_id = " + id);
-        while (resultSet.next()) {
-            list.add(new Person(resultSet.getInt(1),
-                    resultSet.getString(2),
-                    resultSet.getInt(3),
-                    resultSet.getInt(4))
-            );
-        }
-        return list;
+        return super.getAll("SELECT id, name, birth_year, site_id FROM persons WHERE site_id = " + id);
+    }
+    @Override
+    protected Person convertResultSetToDomainObject(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String name = resultSet.getString("name");
+        int birthYear = resultSet.getInt("birth_year");
+        int siteId = resultSet.getInt("site_id");
+        return new Person(id, name, birthYear, siteId);
+    }
+    @Override
+    protected Person convertFromSaveOrUpdateToDomainObject(Optional<ResultSet> resultSet, List<Object> argLlist) throws SQLException {
+        int id;
+        if (resultSet != null) {
+            id = resultSet.get().getInt(1);
+        }else
+            id = (int) argLlist.get(3);
+        String name = (String) argLlist.get(0);
+        int birthyear = (int) argLlist.get(1);
+        int siteId = (int) argLlist.get(2);
+        return new Person(id, name, birthyear, siteId);
     }
 }
 

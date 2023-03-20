@@ -1,7 +1,5 @@
 package domainModell.site;
 
-import domainModell.room.RoomType;
-
 public class SiteCity {
     private String siteCity;
     private enum SiteCities{STOCKHOLM, GÄVLE, MALMÖ, GÖTEBORG;}

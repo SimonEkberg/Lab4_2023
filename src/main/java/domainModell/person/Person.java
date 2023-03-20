@@ -1,7 +1,5 @@
 package domainModell.person;
 
-import domainModell.site.SiteId;
-
 public class Person{
     private int id;
     private PersonName personName;

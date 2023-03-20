@@ -5,7 +5,6 @@ import repository.DaoFactory;
 import service.logging.Logger;
 
 import java.sql.SQLException;
-import java.util.NoSuchElementException;
 
 public class ServiceRunner<T>{
     private final ServiceCommand<T> service;
@@ -24,7 +23,8 @@ public class ServiceRunner<T>{
         }
         catch (SQLException e) {
             Logger.get().error(e);
-            throw new RuntimeException(e);
+            throw new CleaningManagerServiceException(e);
+        //    throw new RuntimeException(e);
         } finally {
             DbConnectionManager.getInstance().close();
         }
