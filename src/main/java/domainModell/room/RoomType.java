@@ -13,7 +13,6 @@ public class RoomType {
     public void setRoomType(String roomType){
         this.roomType = roomTypefromString(roomType);
     }
-
      private String roomTypefromString(String roomType) {
         if (roomType == null || roomType.trim().isEmpty())
             return "UNSPECIFIED";

@@ -15,7 +15,6 @@ public class Room {
         this.roomNumber = new RoomNumber(roomNumber);
         this.roomArea = new RoomArea(roomArea);
         this.roomType = new RoomType(roomType);
-
     }
     public Room(int roomNumber, double roomArea, String roomType){
         this(0,roomNumber,roomArea,roomType);

@@ -13,22 +13,37 @@ import java.util.Optional;
  * @Author Simon Siljamäki Ekberg
  */
 public abstract  class BasicDao <T> {
-    DbConnectionManager dbConnectionManagerSingleton = DbConnectionManager.getInstance();
+    DbConnectionManager dbConnectionManager = null;
+    protected BasicDao() {
+        this(DbConnectionManager.getInstance());
+    }
+    protected BasicDao(DbConnectionManager dbConnectionManager) {
+        this.dbConnectionManager = dbConnectionManager;
+    }
+
     protected abstract T convertResultSetToDomainObject(ResultSet resultSet) throws SQLException;
+
+    /**
+     *
+     * @param resultSet If not null - object are being saved, if null - object are being updated
+     * @param argLlist List of argument/attribute of incoming object
+     * @return New domain object
+     * @throws SQLException
+     */
     protected abstract T convertFromSaveOrUpdateToDomainObject(Optional<ResultSet> resultSet, List<Object> argLlist) throws SQLException;
     protected PreparedStatement getStatement(String SQLstring,
                                              int statementReturnValue) throws SQLException{
-        return dbConnectionManagerSingleton.prepareStatement(SQLstring, statementReturnValue);
+        return dbConnectionManager.prepareStatement(SQLstring, statementReturnValue);
     }
     protected Optional<T> get(String sqlString) throws SQLException{
-        ResultSet resultSet = dbConnectionManagerSingleton.excecuteQuery(sqlString);
+        ResultSet resultSet = dbConnectionManager.excecuteQuery(sqlString);
         if(!resultSet.next())
             return Optional.ofNullable(null);
         return Optional.ofNullable(convertResultSetToDomainObject(resultSet));
     }
     protected List<T> getAll(String sqlString) throws SQLException{
         ArrayList<T> list = new ArrayList<>();
-        ResultSet resultSet = dbConnectionManagerSingleton.excecuteQuery(sqlString);
+        ResultSet resultSet = dbConnectionManager.excecuteQuery(sqlString);
         while (resultSet.next()){
             list.add(convertResultSetToDomainObject(resultSet));
         }

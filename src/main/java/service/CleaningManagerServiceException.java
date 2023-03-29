@@ -1,6 +1,8 @@
 package service;
 
-public class CleaningManagerServiceException extends RuntimeException {
+import java.sql.SQLException;
+
+public class CleaningManagerServiceException extends SQLException {
     public CleaningManagerServiceException(){}
     public CleaningManagerServiceException(String message){
         super(message);

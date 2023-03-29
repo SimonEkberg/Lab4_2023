@@ -1,39 +1,35 @@
 package repository;
 
 import db.DbConnectionManager;
-import domainModell.person.Person;
 import domainModell.site.Site;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class SiteDao extends BasicDao<Site> implements Dao<Site> {
 
-    DbConnectionManager dbConManagerSingleton = null;
     public SiteDao() {
-        this(new DbConnectionManager());
-        dbConManagerSingleton = DbConnectionManager.getInstance();
+        super();
     }
     public SiteDao(DbConnectionManager dbConnectionManager) {
-        this.dbConManagerSingleton = dbConnectionManager;
+        super(dbConnectionManager);
     }
 
     @Override
     public Optional<Site> get(int id) throws NoSuchElementException {
         Site site = null;
         try {
-            ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT id, site_name, site_city FROM sites WHERE id=" + id);
+            ResultSet resultSet = dbConnectionManager.excecuteQuery("SELECT id, site_name, site_city FROM sites WHERE id=" + id);
             if (!resultSet.next())
                 throw new NoSuchElementException("The site with id " + id + " doesen't exist in database");
             else
                 site = new Site(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
-            dbConManagerSingleton.close();
+            dbConnectionManager.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -52,7 +48,7 @@ public class SiteDao extends BasicDao<Site> implements Dao<Site> {
         PreparedStatement preparedStatement = null;
         DbConnectionManager.getInstance().open();
         try {
-            preparedStatement = dbConManagerSingleton.prepareStatement(
+            preparedStatement = dbConnectionManager.prepareStatement(
                     "INSERT INTO sites (site_name, site_city) " +
                             "VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, t.getName());
@@ -74,7 +70,7 @@ public class SiteDao extends BasicDao<Site> implements Dao<Site> {
         PreparedStatement preparedStatement = null;
         int rowCount = 0;
         try {
-            preparedStatement = dbConManagerSingleton.prepareStatement(
+            preparedStatement = dbConnectionManager.prepareStatement(
                     "UPDATE sites SET site_name=?, site_city=? WHERE id=" + t.getId(), Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, t.getName());
             preparedStatement.setString(2, t.getSiteCity());
@@ -93,7 +89,7 @@ public class SiteDao extends BasicDao<Site> implements Dao<Site> {
         Site site = null;
         PreparedStatement preparedStatement = null;
         try {
-            ResultSet resultSet = dbConManagerSingleton.excecuteQuery("SELECT id, site_name, site_city" +
+            ResultSet resultSet = dbConnectionManager.excecuteQuery("SELECT id, site_name, site_city" +
                     " FROM sites WHERE id=" + id);
             if (!resultSet.next())
                 throw new NoSuchElementException("The site with id " + id + " doesn't exist in database");
@@ -101,7 +97,7 @@ public class SiteDao extends BasicDao<Site> implements Dao<Site> {
                 site = new Site(resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getString(3));
-            preparedStatement = dbConManagerSingleton.prepareStatement(
+            preparedStatement = dbConnectionManager.prepareStatement(
                     "DELETE FROM sites WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();

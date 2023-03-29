@@ -1,13 +1,10 @@
 package repository;
 
 import db.DbConnectionManager;
-import domainModell.person.Person;
 import domainModell.room.Room;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -24,19 +21,12 @@ import java.util.Optional;
  * @author Simon Siljamäki Ekberg
  */
 public class RoomDao extends BasicDao<Room> implements Dao<Room> {
-
-    DbConnectionManager dbConManagerSingleton = null;
-
     public RoomDao() {
-        this(new DbConnectionManager());
-        dbConManagerSingleton = DbConnectionManager.getInstance();
+        super();
     }
-
     public RoomDao(DbConnectionManager dbConnectionManager) {
-        this.dbConManagerSingleton = dbConnectionManager;
-
+        super(dbConnectionManager);
     }
-
     @Override
     public Optional<Room> get(int id) throws NoSuchElementException, SQLException {
         return super.get("SELECT id, room_number, room_area, room_type FROM rooms WHERE id=" + id);

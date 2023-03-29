@@ -1,17 +1,18 @@
-package service.person;
+package integration;
 
 import db.DbConnectionManager;
 import domainModell.person.Person;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import service.person.FindAllPersonBySiteIdDao;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FindAllPersonBySiteIdDaoTest {
+class FindAllPersonBySiteIdDaoIntegrationTest {
 
     private static DbConnectionManager dbConnectionManager;
 

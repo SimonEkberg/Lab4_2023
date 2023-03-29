@@ -6,18 +6,20 @@ import domainModell.room.Room;
 import domainModell.site.Site;
 import repository.Dao;
 import repository.DaoFactory;
+import service.CleaningManagerServiceException;
 import service.PersonService;
 import service.ServiceCommand;
 import service.ServiceRunner;
 import service.person.*;
 import service.room.GetRoomByIdService;
 import service.room.SaveRoomService;
+import service.room.UpdateRoomService;
 
 import java.util.List;
 import java.util.Optional;
 
 public class MainPerson {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CleaningManagerServiceException {
      //   PersonService personService = new PersonService();
     //    DbConnectionManager.getInstance().open();
      /*   int id = 1;
@@ -39,9 +41,9 @@ public class MainPerson {
     //    serviceRunner.execute();
     //    Optional<Optional<Person>> updatedPerson = Optional.ofNullable(serviceRunner.execute());
 
-        int id = 50;
-        Person person = (new Person(id, "Bengt", 1999, 3));
-        ServiceRunner<Optional> serviceRunner = new ServiceRunner(new SavePersonService(person));
+        int id = 54;
+        Person person = (new Person(id, "Bengan", 1999, 3));
+        ServiceRunner<Optional> serviceRunner = new ServiceRunner(new UpdatePersonService(person));
         serviceRunner.execute();
       //  Optional<Optional<Person>> updatedPerson = Optional.ofNullable(serviceRunner.execute());
      //   System.out.println(updatedPerson);

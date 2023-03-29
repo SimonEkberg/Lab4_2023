@@ -6,8 +6,6 @@ public class Person{
     private PersonBirthYear personBirthYear;
     private int siteId;
 
-
-
     public Person(int id, String personName, int personBirthYear) {
         this(id,personName,personBirthYear,0);
     }
@@ -24,37 +22,27 @@ public class Person{
         this(0,name,birthYear,0);
     }
     public void setSiteId(int siteId){
-       /* if(SiteId.getInstance().addEntitySiteId(siteId))
-            this.siteId = siteId;*/
+
         this.siteId = siteId;
     }
-
     public int getSiteId() {
         return this.siteId;
     }
-
-
-
     public String getPersonName() {
         return personName.getName().toString();
     }
-
     public void setPersonName(String personName) {
         this.personName = new PersonName(personName);
     }
-
     public int getId() {
         return id;
     }
-
     public int getBirthYear() {
         return this.personBirthYear.getBirthYear();
     }
-
     public void setBirthYear(int birthYear) {
         this.personBirthYear = new PersonBirthYear(birthYear);
     }
-
   @Override
   public boolean equals(Object o) {
       if (this == o) {
@@ -69,7 +57,6 @@ public class Person{
               getPersonName() == person.getPersonName() &&
               getSiteId() == person.getSiteId();
   }
-
     @Override
     public String toString() {
         return "Person{" +

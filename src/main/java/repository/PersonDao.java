@@ -3,11 +3,8 @@ package repository;
 import db.DbConnectionManager;
 import domainModell.person.Person;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -24,16 +21,11 @@ import java.util.Optional;
  * @author Simon Siljamäki Ekberg
  */
 public class PersonDao extends BasicDao<Person> implements Dao<Person> {
-
-    DbConnectionManager dbConManagerSingleton = null;
-
     public PersonDao() {
-        this(new DbConnectionManager());
-        dbConManagerSingleton = DbConnectionManager.getInstance();
+        super();
     }
-
     public PersonDao(DbConnectionManager dbConnectionManager) {
-        this.dbConManagerSingleton = dbConnectionManager;
+        super(dbConnectionManager);
     }
 
     @Override

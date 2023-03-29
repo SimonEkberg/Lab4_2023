@@ -24,7 +24,6 @@ public class ServiceRunner<T>{
         catch (SQLException e) {
             Logger.get().error(e);
             throw new CleaningManagerServiceException(e);
-        //    throw new RuntimeException(e);
         } finally {
             DbConnectionManager.getInstance().close();
         }
